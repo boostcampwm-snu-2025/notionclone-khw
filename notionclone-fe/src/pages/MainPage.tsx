@@ -20,7 +20,6 @@ const mainPageStyles: Record<string, CSSProperties> = {
     height: 36,
     borderRadius: 8,
     border: "1px solid var(--gray-300)",
-    background: "var(--gray-100)",
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
@@ -29,8 +28,8 @@ const mainPageStyles: Record<string, CSSProperties> = {
   },
   content: {
     flex: 1,
-    background: "var(--gray-50)",
     overflowY: "auto",
+    background: "white",
   },
 };
 
