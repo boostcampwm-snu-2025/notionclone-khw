@@ -1,6 +1,9 @@
 import type { CSSProperties } from "react";
+
 import type { BreadcrumbItem } from "../../types/page";
 import BreadCrumb from "./BreadCrumb";
+
+import { NOTION_WELCOME_ICON } from "../../constants/initialContent/notionWelcome";
 
 interface PageHeaderProps {
   title: string;
@@ -46,7 +49,7 @@ const pageHeaderStyles: Record<string, CSSProperties> = {
 
 const PageHeader = ({
   title,
-  icon = "👋",
+  icon = NOTION_WELCOME_ICON,
   breadcrumbItems,
   onBreadcrumbClick,
 }: PageHeaderProps) => {

@@ -1,6 +1,9 @@
 import type { PageState } from "../../types/page";
+
 import {
   welcomeId,
+  NOTION_WELCOME_ICON,
+  NOTION_WELCOME_TITLE,
   NOTION_WELCOME_CONTENT,
 } from "../../constants/initialContent/notionWelcome";
 import { PAGE_STORAGE_KEY } from "../../constants/localStorageKey";
@@ -25,8 +28,8 @@ export const loadInitialPageState = (): PageState => {
       [welcomeId]: {
         id: welcomeId,
         parentId: null,
-        title: "Notion에 오신 것을 환영합니다!",
-        icon: "👋",
+        title: NOTION_WELCOME_TITLE,
+        icon: NOTION_WELCOME_ICON,
         blocks: NOTION_WELCOME_CONTENT,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),

@@ -2,6 +2,8 @@ import type { PartialBlock } from "@blocknote/core";
 
 export const welcomeId = "welcome";
 
+export const NOTION_WELCOME_ICON = "👋";
+
 export const NOTION_WELCOME_TITLE = "Notion에 오신 것을 환영합니다!";
 
 export const NOTION_WELCOME_CONTENT: PartialBlock[] = [
