@@ -31,8 +31,8 @@ const sidebarStyles: Record<string, CSSProperties> = {
     display: "flex",
     flexDirection: "column",
     width: 300,
-    minHeight: "100vh",
-    padding: "12px 10px 12px 12px",
+    height: "100vh",
+    padding: "12px 0 12px 0",
     background: "var(--gray-100)",
     borderRight: "1px solid var(--gray-300)",
     fontFamily: "-apple-system, BlinkMacSystemFont, system-ui, sans-serif",
@@ -43,12 +43,19 @@ const sidebarStyles: Record<string, CSSProperties> = {
     transition:
       "width 0.2s ease-out, padding 0.2s ease-out, border-right 0.2s ease-out",
   },
+  scrollArea: {
+    flex: 1,
+    overflowY: "auto", // Allow vertical scroll
+    overflowX: "hidden",
+    padding: "0 10px 0 12px",
+  },
   workspace: {
     display: "flex",
     alignItems: "center",
     gap: 8,
-    padding: "4px 6px 10px",
+    padding: "4px 16px 14px 12px",
     marginBottom: 4,
+    flexShrink: 0,
   },
   avatar: {
     width: 26,
@@ -67,11 +74,15 @@ const sidebarStyles: Record<string, CSSProperties> = {
     display: "flex",
     flexDirection: "column",
     gap: 2,
+    minWidth: 0,
   },
   workspaceName: {
     fontSize: 13,
     fontWeight: 600,
     color: "var(--gray-900)",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   workspaceSub: {
     fontSize: 11,
@@ -95,14 +106,14 @@ const sidebarStyles: Record<string, CSSProperties> = {
   },
   itemList: { listStyle: "none", padding: 0, margin: 0 },
   bottom: {
-    marginTop: "auto",
-    paddingTop: 12,
+    padding: "12px 10px 0 12px",
     borderTop: "1px solid var(--gray-300)",
     display: "flex",
     alignItems: "center",
     gap: 8,
     fontSize: 12,
     color: "var(--gray-500)",
+    flexShrink: 0,
   },
   bottomIcon: {
     width: 22,
@@ -129,7 +140,6 @@ const Sidebar = ({
       style={{
         ...sidebarStyles.wrap,
         width: collapsed ? 0 : 300,
-        padding: collapsed ? 0 : "12px 10px 12px 12px",
         borderRight: collapsed ? "none" : "1px solid var(--gray-300)",
       }}
     >
@@ -159,68 +169,69 @@ const Sidebar = ({
             </div>
           </header>
 
-          {SIDEBAR_SECTIONS.map((section) => (
-            <section key={section.id} style={sidebarStyles.section}>
-              {section.label && (
-                <div style={sidebarStyles.sectionLabel}>{section.label}</div>
-              )}
+          <div style={sidebarStyles.scrollArea}>
+            {SIDEBAR_SECTIONS.map((section) => (
+              <section key={section.id} style={sidebarStyles.section}>
+                {section.label && (
+                  <div style={sidebarStyles.sectionLabel}>{section.label}</div>
+                )}
 
+                <ul style={sidebarStyles.itemList}>
+                  {section.items.map((item) => (
+                    <SidebarItemRow
+                      key={item.id}
+                      item={item}
+                      isActive={activeId === item.id}
+                      onClick={
+                        onItemClick ? () => onItemClick(item.id) : undefined
+                      }
+                    />
+                  ))}
+                </ul>
+              </section>
+            ))}
+
+            <section style={sidebarStyles.section}>
+              <div style={sidebarStyles.sectionLabel}>개인 페이지</div>
               <ul style={sidebarStyles.itemList}>
-                {section.items.map((item) => (
-                  <SidebarItemRow
-                    key={item.id}
-                    item={item}
-                    isActive={activeId === item.id}
-                    onClick={
-                      onItemClick ? () => onItemClick(item.id) : undefined
-                    }
-                  />
-                ))}
+                {rootIds.map((id) => {
+                  const page = pages[id];
+                  if (!page) return null;
+
+                  return (
+                    <SidebarItemRow
+                      key={page.id}
+                      item={{
+                        id: page.id,
+                        label: page.title || NO_TITLE_PAGE_TITLE,
+                        icon: page.icon ? (
+                          <span>{page.icon}</span>
+                        ) : (
+                          <DescriptionOutlined fontSize="small" />
+                        ),
+                      }}
+                      isActive={activeId === page.id}
+                      onClick={
+                        onItemClick ? () => onItemClick(page.id) : undefined
+                      }
+                    />
+                  );
+                })}
+
+                {rootIds.length === 0 && (
+                  <div
+                    style={{
+                      padding: "8px 12px",
+                      fontSize: 13,
+                      color: "var(--gray-500)",
+                    }}
+                  >
+                    페이지가 없습니다.
+                  </div>
+                )}
               </ul>
             </section>
-          ))}
-
-          <section style={sidebarStyles.section}>
-            <div style={sidebarStyles.sectionLabel}>개인 페이지</div>
-            <ul style={sidebarStyles.itemList}>
-              {rootIds.map((id) => {
-                const page = pages[id];
-                if (!page) return null;
-
-                return (
-                  <SidebarItemRow
-                    key={page.id}
-                    item={{
-                      id: page.id,
-                      label: page.title || NO_TITLE_PAGE_TITLE,
-                      icon: page.icon ? (
-                        <span>{page.icon}</span>
-                      ) : (
-                        <DescriptionOutlined fontSize="small" />
-                      ),
-                    }}
-                    isActive={activeId === page.id}
-                    onClick={
-                      onItemClick ? () => onItemClick(page.id) : undefined
-                    }
-                  />
-                );
-              })}
-
-              {/* When no pages exist */}
-              {rootIds.length === 0 && (
-                <div
-                  style={{
-                    padding: "8px 12px",
-                    fontSize: 13,
-                    color: "var(--gray-500)",
-                  }}
-                >
-                  페이지가 없습니다.
-                </div>
-              )}
-            </ul>
-          </section>
+          </div>
 
           <div style={sidebarStyles.bottom}>
             <div style={sidebarStyles.bottomIcon}>
