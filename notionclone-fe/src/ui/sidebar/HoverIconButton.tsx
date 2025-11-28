@@ -5,6 +5,7 @@ interface HoverIconButtonProps {
   icon: ReactNode;
   label: string;
   onClick?: () => void;
+  noBorder?: boolean;
 }
 
 const hoverIconButtonStyles: Record<string, CSSProperties> = {
@@ -28,6 +29,10 @@ const hoverIconButtonStyles: Record<string, CSSProperties> = {
     padding: 0,
     transition: "background 0.15s ease-out, color 0.15s ease-out",
   },
+  buttonNoBorder: {
+    border: "none",
+    background: "transparent",
+  },
   buttonHover: {
     background: "var(--gray-200)",
     color: "var(--gray-800)",
@@ -47,6 +52,7 @@ const hoverIconButtonStyles: Record<string, CSSProperties> = {
     opacity: 0,
     transform: "translateY(4px)",
     transition: "opacity 0.15s ease-out, transform 0.15s ease-out",
+    zIndex: 10,
   },
   tooltipVisible: {
     opacity: 1,
@@ -54,7 +60,12 @@ const hoverIconButtonStyles: Record<string, CSSProperties> = {
   },
 };
 
-const HoverIconButton = ({ icon, label, onClick }: HoverIconButtonProps) => {
+const HoverIconButton = ({
+  icon,
+  label,
+  onClick,
+  noBorder = false,
+}: HoverIconButtonProps) => {
   const [hover, setHover] = useState(false);
 
   return (
@@ -67,6 +78,7 @@ const HoverIconButton = ({ icon, label, onClick }: HoverIconButtonProps) => {
         type="button"
         style={{
           ...hoverIconButtonStyles.button,
+          ...(noBorder ? hoverIconButtonStyles.buttonNoBorder : {}),
           ...(hover ? hoverIconButtonStyles.buttonHover : {}),
         }}
         onClick={onClick}

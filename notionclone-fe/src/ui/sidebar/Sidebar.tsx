@@ -6,6 +6,7 @@ import {
   HelpOutline,
   Inventory2Outlined,
   DescriptionOutlined,
+  Add,
 } from "@mui/icons-material";
 
 import type { Page } from "../../types/page";
@@ -97,6 +98,11 @@ const sidebarStyles: Record<string, CSSProperties> = {
     color: "var(--gray-500)",
   },
   section: { marginTop: 8 },
+  sectionRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   sectionLabel: {
     padding: "12px 6px 4px",
     fontSize: 11,
@@ -174,7 +180,19 @@ const Sidebar = ({
             {SIDEBAR_SECTIONS.map((section) => (
               <section key={section.id} style={sidebarStyles.section}>
                 {section.label && (
-                  <div style={sidebarStyles.sectionLabel}>{section.label}</div>
+                  <div style={sidebarStyles.sectionRow}>
+                    <span style={sidebarStyles.sectionLabel}>
+                      {section.label}
+                    </span>
+                    {section.id === "personal" && (
+                      <HoverIconButton
+                        icon={<Add sx={{ fontSize: 16 }} />}
+                        label="페이지 추가"
+                        onClick={onCreatePage}
+                        noBorder={true}
+                      />
+                    )}
+                  </div>
                 )}
 
                 <ul style={sidebarStyles.itemList}>
