@@ -13,6 +13,7 @@ import { SIDEBAR_SECTIONS } from "../../constants/sidebar";
 import SidebarItemRow from "./SidebarItemRow";
 import HoverIconButton from "./HoverIconButton";
 
+import { USER_NAME } from "../../constants/userName";
 import { NO_TITLE_PAGE_TITLE } from "../../constants/page";
 
 interface SidebarProps {
@@ -150,7 +151,7 @@ const Sidebar = ({
 
             <div style={sidebarStyles.workspaceMain}>
               <div style={sidebarStyles.workspaceName}>
-                김희원님의 워크스페이스
+                {`${USER_NAME}님의 워크스페이스`}
               </div>
               <div style={sidebarStyles.workspaceSub}>개인 · 무료 플랜</div>
             </div>

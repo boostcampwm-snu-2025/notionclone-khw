@@ -1,6 +1,8 @@
 import type { CSSProperties, FormEvent, MouseEvent } from "react";
 import { Search, Menu } from "@mui/icons-material";
 
+import { USER_NAME } from "../../constants/userName";
+
 interface SearchOverlayProps {
   open: boolean;
   onClose: () => void;
@@ -99,7 +101,7 @@ const SearchOverlay = ({ open, onClose }: SearchOverlayProps) => {
             <input
               autoFocus
               style={searchStyles.input}
-              placeholder="김희원님의 워크스페이스에서 검색 또는 질문"
+              placeholder={`${USER_NAME}님의 워크스페이스에서 검색 또는 질문`}
             />
             <div style={searchStyles.rightIconWrap}>
               <Menu fontSize="small" />
